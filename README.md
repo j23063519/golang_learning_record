@@ -1,3 +1,3 @@
-# golang_learning_record
+# golang learning record
 
-This is my golang learning recording.
+This is my golang learning record.
