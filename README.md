@@ -10,3 +10,12 @@ Second thing, create go files
 go mod init hello
 code main.go
 ```
+
+## print Hello world
+
+After I finish my code, I can type go run main.go in vscode terminal
+
+```bash
+shift + control + `
+go run main.go
+```
