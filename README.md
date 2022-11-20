@@ -1,9 +1,5 @@
-# variables
+# constant
 
-variable declaration
-I can use var for declared variables
-EX:
-var a int = 1
+The constant can not be changed after you assign the value and data type.
 
-If I declare variable and not to use it and then golang will
-tells me that ... declared but not used
+And the constant must be upper case.
