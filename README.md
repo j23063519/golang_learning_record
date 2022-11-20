@@ -17,3 +17,11 @@ git clone https://github.com/udhos/update-golang
 cd update-golang
 sudo ./update-golang.sh
 ```
+
+## GOPATH
+
+If I want to know GOPATH:
+
+```bash
+go env GOPATH
+```
