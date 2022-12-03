@@ -1,5 +1,8 @@
-# constant
+# type
 
-The constant can not be changed after you assign the value and data type.
+The basic data type introductions.
 
-And the constant must be upper case.
+## Reference
+
+1. (<https://ithelp.ithome.com.tw/articles/10236707>)
+2. (<https://calvertyang.github.io/2019/11/05/golang-basic-types-operators-type-conversion/>)
