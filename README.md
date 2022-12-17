@@ -1,4 +1,4 @@
-# fmt
+# build
 
 The basic command line "go build" "go env" introductions.
 
