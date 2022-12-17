@@ -1,9 +1,10 @@
-# fmt
+# point
 
-The basic command line "go build" "go env" introductions.
+The basic pointer introductions.
 
 ## Reference
 
-1. (<https://www.youtube.com/watch?v=9vxsO5vMTAw&list=PLRAV69dS1uWQGDQoBYMZWKjzuhCaOnBpa&index=11>)
-2. (<https://pjchender.dev/golang/env/>)
-3. (<https://medium.com/%E4%BC%81%E9%B5%9D%E4%B9%9F%E6%87%82%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/golang-goroot-gopath-go-modules-%E4%B8%89%E8%80%85%E7%9A%84%E9%97%9C%E4%BF%82%E4%BB%8B%E7%B4%B9-d17481d7a655>)
+1. (<https://www.youtube.com/watch?v=-BFJ0dZyxHg&list=PLRAV69dS1uWQGDQoBYMZWKjzuhCaOnBpa&index=12>)
+2. (<https://ithelp.ithome.com.tw/articles/10240159>)
+3. (<https://pjchender.dev/golang/pointers/>)
+4. (<https://calvertyang.github.io/2019/11/15/playing-with-pointers-in-golang/>)
