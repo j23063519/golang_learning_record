@@ -1,4 +1,4 @@
-# point
+# pointer
 
 The basic pointer introductions.
 
