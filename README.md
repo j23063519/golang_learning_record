@@ -1,10 +1,10 @@
-# pointer
+# array
 
-The basic pointer introductions.
+The basic array introductions.
 
 ## Reference
 
-1. (<https://www.youtube.com/watch?v=-BFJ0dZyxHg&list=PLRAV69dS1uWQGDQoBYMZWKjzuhCaOnBpa&index=12>)
-2. (<https://ithelp.ithome.com.tw/articles/10240159>)
-3. (<https://pjchender.dev/golang/pointers/>)
-4. (<https://calvertyang.github.io/2019/11/15/playing-with-pointers-in-golang/>)
+1. (<https://www.youtube.com/watch?v=JoUSa8jtadE&list=PLRAV69dS1uWQGDQoBYMZWKjzuhCaOnBpa&index=14>)
+2. (<https://ithelp.ithome.com.tw/articles/10237400>)
+3. (<https://pjchender.dev/golang/slice-and-array/>)
+4. (<https://ithelp.ithome.com.tw/articles/10235314>)
