@@ -1,11 +1,11 @@
-# slice
+# map
 
-The basic slice introductions.
+The basic map introductions.
 
 ## Reference
 
-1. (<https://www.youtube.com/watch?v=k7hVj8QL9Co&list=PLRAV69dS1uWQGDQoBYMZWKjzuhCaOnBpa&index=14>)
-2. (<https://ithelp.ithome.com.tw/articles/10237400>)
-3. (<https://calvertyang.github.io/2019/11/13/introduction-to-slices-in-golang/>)
-4. (<https://pjchender.dev/golang/slice-and-array/>)
-5. (<https://www.youtube.com/watch?v=931nR5TGCAk&list=PLRAV69dS1uWQGDQoBYMZWKjzuhCaOnBpa&index=16>)
+1. (<https://www.youtube.com/watch?v=_0R6H1m9o78&list=PLRAV69dS1uWQGDQoBYMZWKjzuhCaOnBpa&index=16>)
+2. (<https://calvertyang.github.io/2019/11/14/golang-maps-by-example/>)
+3. (<https://pjchender.dev/golang/maps/>)
+4. (<https://ithelp.ithome.com.tw/articles/10269462>)
+5. (<https://ithelp.ithome.com.tw/articles/10238202>)
