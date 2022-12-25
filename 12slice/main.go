@@ -199,4 +199,7 @@ func main() {
 	// 根據上述兩個狀況，可以知道容量的大小會影響切片的變化，若切片容量足夠，會允許賦值，反之則不行
 	// 而之所以nonZeroSlice及nonZeroSlice2兩個切片都會因_ = append(smallCapSlice, 99, 88, 77)，有所變化時，是因爲他們都是指向同個陣列(array)
 	// 切片的要素之一，指標
+
+	// detail
+	detail()
 }
