@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strIntro/detail"
 	"strIntro/model"
 )
 
@@ -217,4 +218,7 @@ func main() {
 	}
 	// output:
 	// p5 不等於 p6
+
+	// 詳細介紹
+	detail.Initailize()
 }

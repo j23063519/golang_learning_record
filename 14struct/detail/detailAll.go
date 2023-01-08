@@ -1,0 +1,5 @@
+package detail
+
+func Initailize() {
+
+}
