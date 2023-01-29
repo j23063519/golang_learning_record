@@ -196,5 +196,168 @@ func init() {
 	// Hers is taiwan Hi 101
 
 	// Promoted fields / Anonymous / Embedded
-	//
+	// 一：在 golang 中 struct 的 field name 可以省略，沒有 field name 的 name，稱作 anonymous or embedded.
+	// 這種狀況下會直接使用「Type」名稱當作 field name
+	// 二：如果 nested anonymous struct 裡的欄位跟 parent struct 欄位有一樣的話，則該欄位不會被 promoted
+	// 三：對於 anonymous(embedded) fields 的欄位(field)或是方法(method)都稱作promoted，他們就像一般的欄位一樣，但是不能跳過 Type 的名稱直接用 struct literals 的方式來賦值
+
+	// 錯誤用法：不能在未明確定義 promoted fields 名稱的情況下，使用 struct literals 設值
+	// record := Record{
+	// 	name:     "record",
+	// 	age:      29,
+	// 	position: "software engineer",
+	// }
+	// fmt.Printf("%+v", record)
+	// undeclared name: Record compiler
+
+	// 正確：明確定義要設值的 promoted fields 名稱為何
+	type Person struct {
+		name string
+		age  int32
+	}
+	type Employee struct {
+		position string
+	}
+	type Record struct {
+		Person
+		Employee
+	}
+	record := Record{
+		Person: Person{
+			name: "record",
+			age:  29,
+		},
+		Employee: Employee{
+			position: "software engineer",
+		},
+	}
+
+	fmt.Printf("%+v\n", record)
+	// output:
+	// {Person:{name:record age:29} Employee:{position:software engineer}}Struct introduction
+
+	// 在 Promoted fields 中取值
+	// 不論有沒有使用明確的 promoted fields 名稱，都可以取值
+	// 根據上述範例：
+	fmt.Println("name:", record.name)                           // 29
+	fmt.Println("Person.name:", record.Person.name)             // 29
+	fmt.Println("position:", record.name)                       // software engineer
+	fmt.Println("Employee.position:", record.Employee.position) // software engineer
+	// output:
+	// name: record
+	// Person.name: record
+	// position: record
+	// Employee.position: software engineer
+
+	// 組裝式繼承
+	goku := &Saiyan{
+		Human: &Human{"Goku"},
+		Power: 1000,
+	}
+
+	fmt.Println("name", goku.Name)
+	fmt.Println("name", goku.Human.Name)
+	goku.Introduce()
+	goku.Human.Introduce()
+	// output:
+	// name Goku
+	// name Goku
+	// Hi, I'm Goku
+	// Hi, I'm Goku
+
+	// Interface Fields (Nested Interface)
+	tim := Worker{
+		firstName: "Jay",
+		lastName:  "Geller",
+		salary: Salary{
+			1100, 50, 50,
+		},
+	}
+	// 因為 Salary struct 已經實作了 Salaried，因此可以當作 salary 的欄位值
+	fmt.Println("Tim's salary is", tim.salary.getSalary())
+	// output:
+	// Tim's salary is 1200
+
+	// anonymously nested interface
+	ross := Woker2{
+		firstName: "Ross",
+		lastName:  "Geller",
+		// 因為 Salary 實作了 Salaried，因此可以作為 Salaried 的欄位值
+		Salaried: Salary{
+			1000, 50, 50,
+		},
+	}
+
+	// 由於 method 會被 promoted，因此可以直接呼叫 ross.getSalary() 的方法
+	// 而不需要使用 ross.Salaried.getSalary()
+	fmt.Println("Ross's salary is", ross.getSalary())
+	// output:
+	// Ross's salary is 1100
+
+	// 匯出的欄位（Exported fields）
+	// struct 中的欄位只有在欄位名稱以大寫命名時才會 export 出去，其他 package 中才能取用得到
+
+	// struct 的比較（Struct comparison）
+	// 當兩個 struct 的 type 和 field value 都相同時，兩個 struct 可以被視為相同
+	// 但若在 struct 中有 field 的 type 是無法比較的話（例如，map），那麼這兩個 struct 將無法進行比較
+
+	// 辨認 Struct Type 的名稱
+	// 使用 reflect.TypeOf 和 reflect.ValueOf().Kind() 可以用來判斷該 struct 的 struct type 名稱，以及變數的實際 type
+	u := struct {
+		Name, Password string
+	}{
+		Name:     "Sammy the Shark",
+		Password: "fisharegreat",
+	}
+	fmt.Println(reflect.TypeOf(u))
+	fmt.Println(reflect.ValueOf(u).Kind())
+	// output:
+	// struct { Name string; Password string }
+	// struct
+}
+
+// Human 有 name 且可以 Introduce，而 Saiyan 是 Human，因此它也有 Name 且可以 Introduce
+type Human struct {
+	Name string
+}
+
+func (h *Human) Introduce() {
+	fmt.Printf("Hi, I'm %s\n", h.Name)
+}
+
+// 建立 Saiyan(賽亞人) struct，並將 Human embed 在內
+// 意思是 Saiyan 是 Human 而不是 Saiyan「 有一個 」Human
+type Saiyan struct {
+	*Human
+	Power int
+}
+
+// struct 中的欄位也可以放入 interface，以 Worker 這個 struct 來說，其中的 salary 欄位型別是 Salaried 這個 interface，也就是説 salary 這個欄位值，一定要有實作 Salarired 的方法，如此 salary 才會符合該 interface 的 type:
+// 。Worker struct 中的 { salary Salaried} 表示 salary 要符合 Salaried interface type
+// 。要符合該 interface type，表示 salary 要實作 Salaried interface 中所定義的 method
+// 。在定義 ross 變數時，因為 Salary 這個 struct 已經實作了 Salaried，因此可以放到 salary 這個欄位中
+type Salaried interface {
+	getSalary() int
+}
+
+type Salary struct {
+	basic, insurance, allowance int
+}
+
+func (s Salary) getSalary() int {
+	return s.basic + s.insurance + s.allowance
+}
+
+type Worker struct {
+	firstName, lastName string
+	salary              Salaried // 只要 salary 實作了 Salaried，就可以 Salaried interface type
+}
+
+// 根據上述範例，若是有一個 struct 的欄位沒有填寫時 (anonymous fields)，interface 中所定義的方法也可以被 promoted：
+// 。這裡定義一個 Woker2 struct 且使用了 Salaried 作為 anonymous field
+// 。在對 Woker2 時，因為 Salary struct 有實作 Salaried，因此可以當作 Woker2 struct 中 Salaried 的值
+// 。由於 promoted 這作用，可以直接使用 ross.getSalary() 方法，而不需要使用 ross.Salaried.getSalary()
+type Woker2 struct {
+	firstName, lastName string
+	Salaried
 }
