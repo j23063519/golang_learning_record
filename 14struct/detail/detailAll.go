@@ -1,5 +1,0 @@
-package detail
-
-func Initailize() {
-
-}
