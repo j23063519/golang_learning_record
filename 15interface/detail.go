@@ -1,5 +1,7 @@
 package main
 
-func detail() {
+import "fmt"
 
+func detail() {
+	fmt.Println("test")
 }

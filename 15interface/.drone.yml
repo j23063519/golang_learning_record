@@ -18,18 +18,15 @@ platform:
 steps:
   - name: build
     image: alpine
-    pull: if-not-exists
     commands:
       - echo build
 
   - name: test
     image: alpine
-    pull: if-not-exists
     commands:
       - echo test
 
   - name: deploy
     image: alpine
-    pull: if-not-exists
     commands:
       - echo deploy
