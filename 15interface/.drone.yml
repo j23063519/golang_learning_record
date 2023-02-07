@@ -27,4 +27,3 @@ steps:
   - name: deploy
     commands:
       - echo deploy
-      - echo deploy
