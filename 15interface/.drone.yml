@@ -11,8 +11,8 @@ platform:
 
 # 指定 pipeline trigger 的條件
 trigger:
-  event:
-    - push
+  branch:
+    - feature/*
 
 # pipeline 的每個步驟
 steps:
