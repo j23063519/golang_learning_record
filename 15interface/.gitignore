@@ -1,0 +1,6 @@
+*.yml
+*.yaml
+*.env
+makefile
+data/*
+data
