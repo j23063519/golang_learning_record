@@ -11,13 +11,22 @@ steps:
     image: golang:1.19
     commands:
       - echo build
+    when:
+      branch:
+        - feature/*
 
   - name: test
     image: golang:1.19
     commands:
       - echo test
+    when:
+      branch:
+        - feature/*
 
   - name: deploy
     image: golang:1.19
     commands:
       - echo deploy
+    when:
+      branch:
+        - feature/*
