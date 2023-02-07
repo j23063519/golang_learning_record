@@ -10,9 +10,9 @@ platform:
   arch: arm64
 
 # 指定 pipeline trigger 的條件
-trigger:
-  branch:
-    - feature/*
+# trigger:
+#   branch:
+#     - feature/*
 
 # pipeline 的每個步驟
 steps:
@@ -26,4 +26,5 @@ steps:
 
   - name: deploy
     commands:
+      - echo deploy
       - echo deploy
