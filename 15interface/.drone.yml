@@ -17,16 +17,13 @@ trigger:
 # pipeline 的每個步驟
 steps:
   - name: build
-    image: alpine
     commands:
       - echo build
 
   - name: test
-    image: alpine
     commands:
       - echo test
 
   - name: deploy
-    image: alpine
     commands:
       - echo deploy
