@@ -1,0 +1,29 @@
+# 指定 pipeline，且由 docker runner 執行
+kind: pipeline
+type: docker
+name: default
+
+# 如果 docker runner 都跑在 arm64 的機器上（如 m1, raspberry pi)，這邊一定要給定 arm64
+# 否則預設 linux / amd64 會導致 pipeline 一直 pending
+platform:
+  os: linux
+  arch: arm64
+
+# 指定 pipeline trigger 的條件
+trigger:
+  branch:
+    - feature/*
+
+# pipeline 的每個步驟
+steps:
+  - name: build
+    commands:
+      - echo build
+
+  - name: test
+    commands:
+      - echo test
+
+  - name: deploy
+    commands:
+      - echo deploy
