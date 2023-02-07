@@ -10,9 +10,9 @@ platform:
   arch: arm64
 
 # 指定 pipeline trigger 的條件
-# trigger:
-#   event:
-#     - push
+trigger:
+  event:
+    - push
 
 # pipeline 的每個步驟
 steps:
