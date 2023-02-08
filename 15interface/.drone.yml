@@ -13,7 +13,7 @@ steps:
       - echo build
     when:
       branch:
-        - feature/*
+        - feature/interface
 
   - name: test
     image: golang:1.19
@@ -21,7 +21,7 @@ steps:
       - echo test
     when:
       branch:
-        - feature/*
+        - feature/interface
 
   - name: deploy
     image: golang:1.19
@@ -29,4 +29,4 @@ steps:
       - echo deploy
     when:
       branch:
-        - feature/*
+        - feature/interface
