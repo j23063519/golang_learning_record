@@ -68,6 +68,116 @@ func detail() {
 	fmt.Println("Mike's salary is", mike.salary.getSalary())
 	// output:
 	// Mike's salary is 1160
+
+	// Interface 會被隱性的實作
+	var itf Itf = TpeImpItf{"implement"}
+	itf.M()
+	// output:
+	// S: implement
+
+	// 同時符合多個 interface 的 type
+	// 。MutiItf type 同時實作了，Hand 和 Foot interface
+	// 。可以把 MutiItf 指派給 Hand 和 Foot interface 所建立的變數
+	// 。Hand interface 所建立的變數 hit 可以使用 hit.Grab() 的方法;Foot interface 所建立的變數 fit 可以使用 fit.Kick() 的方法
+	// 。雖然變數 hit 和 fit 的 dynamic type 都是 MutiItf，但底層的 Static Tpye 不同，前者是 Hand interface、後者是 Foot interface，因此雖然他們 dynamic type 都是 MutiItf type，但是並不能使用 hit.Kick() 和 fit.Grab()
+	mitf := MutiItf{baseScore: 5}
+	var hit Hand = mitf
+	var fit Foot = mitf
+	fmt.Printf("\nBase Grap Score of hit: %v\n", hit.Grab())
+	fmt.Printf("Hand (%T, %v)\n", hit, hit)
+	fmt.Printf("Base Grap Score of fit: %v\n", fit.Kick())
+	fmt.Printf("Foot (%T, %v)\n", fit, fit)
+	// output:
+	// Base Grap Score of hit: 100
+	// Hand (main.MutiItf, {5})
+	// Base Grap Score of fit: 150
+	// Foot (main.MutiItf, {5})
+
+	// 型別斷言 Type Assertions
+	// 雖然 hit 和 fit 的 dynamic type 都是 MutiItf，但因為他們的底層 static type 並不一樣，hit 的是 Hand、fit 的是 Foot，因此不能呼叫 hit.Kick() 和 fit.Grab()的方法。為了避免呼叫到底底層並不對應的 static type 可以使用 type assertion 的方式:
+	// val := i.(Type) // 得到實作 interface 的 type 的值
+	// i: type interface
+	// Type: 實作該 interface 的 type
+	var anotherHit Hand = MutiItf{baseScore: 40}
+	// 原本不能執行 anotherHit.Kick()，但把 anotherHit 轉換成 MutiItf 後，得到 newHit 即可使用 newHit.Kick()
+	newHit := anotherHit.(MutiItf)
+	fmt.Println("\nGrab score:", newHit.Grab())
+	fmt.Printf("Hand (%T, %v)\n", newHit, newHit)
+	fmt.Println("Kick score:", newHit.Kick())
+	fmt.Printf("Foot (%T, %v)\n", newHit, newHit)
+	// output:
+	// Grab score: 800
+	// Hand (main.MutiItf, {40})
+	// Kick score: 1200
+	// Foot (main.MutiItf, {40})
+
+	// 若是 MutiItf 並沒有實作 Foot 或是 Hand interface 方法 或是 MutiItf 有實作 Foot 或是 Hand interface 方法但是並沒有實際賦值都會報錯，為了避免這種狀況可以使用：
+	// val, ok := i.(Type)
+	// ok: 當 i 有 dynamic type 和 dynamic value 時，ok 會是 true，
+	// val 則會是 dynamic value;否則 ok 會是 false，value 會是該 type 的 zero value
+
+	// Type Assertions 除了用來確保一個 interface 是否有 dynamic value / concrete value 之外，也可以用來將一個變數從原本的interface 轉變成另一個 interface
+	var JohnPers Pers = Empl{"John", "Albert", 2000}
+	fmt.Printf("full name: %v \n", JohnPers)
+	JohnSalar := JohnPers.(Salar)
+	fmt.Printf("salar: %v \n", JohnSalar.getSalary())
+	// output:
+	// full name: {John Albert 2000}
+	// salar: 2000
+
+	// Embedding interfaces
+	// embedded，嵌入:俗稱golang 的繼承，但不是真的繼承(背後的機制和程式語言處理方式不同)。而行為可以做到類似繼承的特點。
+	// 在 go 中，我們可以將兩個 interface 組合成一個新的 interface
+	type ShapPart interface {
+		Area() float64
+	}
+	type ObjectPart interface {
+		Volume() float64
+	}
+	type MaterialCombine interface {
+		ShapPart
+		ObjectPart
+	}
+	// MaterialCombine interface 是由 ShapPart 和 ObjectPart 組合而成
+
+	// interface 試圖解決的問題
+	// 問題：共同相同邏輯但帶入不同型別參數得函式
+	// 如果某一個函式內部運作邏輯相同，我還需要因參數型別不同而撰寫不同的 function呢？
+	// interface 的使用
+	// 在程式中的任何 type，只要這個 type 的函式有符合到該 interface 的定義，就可以歸類到該 interface 底下。
+	// 範例一：polymorphism
+	// 在這個例子中，在這個例子中，square type 的方法 area() 因為符合 shape interface 的定義，所以 square type 也一併被歸類在 shape interface 中（polymorphism）：
+	// // STEP 1：定義 Shape 這個 interface
+	// type Shape interface {
+	//     area() int
+	// }
+
+	// // STEP 2：定義 square type
+	// type Square struct {
+	//     sideLength int
+	// }
+
+	// // STEP 3：定義 area 這個 Square type 的 methods
+	// // 因為 Square type 的 area method 符合 Shape interface 的規範
+	// // 所以 Square type 同樣屬於 Shape interface
+	// func (s Square) area() int {
+	//     return s.sideLength * s.sideLength
+	// }
+
+	// func main() {
+	//     // STEP 5：定義 Square type 的變數，ten 了符合 Square Type 之外，也同時符合 Shape Interface
+	//     ten := Square{sideLength: 10}
+
+	//     // STEP 6：printArea 中可以帶入 Shape type
+	//     // 因為 tne 現在同時屬於 Shape interface，所以可以放入 printArea 這個 function
+	//     printArea(ten)
+	// }
+
+	// // STEP 4：printArea 這個 function 可以帶入 Shape interface 作為參數
+	//
+	//	func printArea(s Shape) {
+	//	    fmt.Println(s.area())
+	//	}
 }
 
 // interface 沒有被賦值前，其 type 和 value 都會是 `nil`
@@ -124,4 +234,60 @@ func (s Salary) getSalary() int {
 type Employee struct {
 	firstName, lastName string
 	salary              Salaried
+}
+
+type Itf interface {
+	M()
+}
+
+type TpeImpItf struct {
+	S string
+}
+
+// type tpe 實作了 interface Itf 的 M方法
+// 但是不需宣告
+func (tpe TpeImpItf) M() {
+	fmt.Printf("\nS: %v\n", tpe.S)
+}
+
+type Hand interface {
+	Grab() uint64
+}
+
+type Foot interface {
+	Kick() uint64
+}
+
+type MutiItf struct {
+	baseScore uint64
+}
+
+func (mtf MutiItf) Grab() uint64 {
+	return 20 * mtf.baseScore
+}
+
+func (mtf MutiItf) Kick() uint64 {
+	return 30 * mtf.baseScore
+}
+
+type Pers interface {
+	getFullName() string
+}
+
+type Salar interface {
+	getSalary() int
+}
+
+type Empl struct {
+	firstName string
+	lastName  string
+	salary    int
+}
+
+func (e Empl) getFullName() string {
+	return e.firstName + " " + e.lastName
+}
+
+func (e Empl) getSalary() int {
+	return e.salary
 }
